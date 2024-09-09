@@ -11,7 +11,19 @@ def check_exit():
     if key == 27:
         return True
     return False
+check, image = cam.read()
+    
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    lower_green = np.array([110,50,50])
+    upper_green = np.array([130,255,255])
+    mask = cv2.inRange(hsv, lower_green, upper_green)
+    res = cv2.bitwise_and(image,image, mask= mask)
+    blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 
+    contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
+    for big in range(0, len(contours)):
+        if cv2.contourArea(contours[big]) >= 1000:
 
 while True:
     check, image = cam.read()

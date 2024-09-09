@@ -53,8 +53,10 @@ while True:
                 else:
                   bad_plants = contours[i]  
     
-cv2.drawContours(image, bad_plants, -1, (255,0,0), 3)
-cv2.drawContours(image, good_plants, -1, (0,0,255), 3)
+    cv2.drawContours(image, bad_plants, -1, (255,0,0), 3)
+    cv2.drawContours(image, good_plants, -1, (0,0,255), 3)
+
+    #for loops that find center of good and bad plants 
     
         
     

@@ -45,16 +45,15 @@ while True:
 
     contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    for big in range(0, len(contours)):
-        if cv2.contourArea(contours[big]) >= 1000:
-              for c in range(0, len(c)): 
-                if cv2.pointPolygonTest(contours[plants],thing[c], measureDist) >= 0:
-                  good_plants = contours[plants]
-                
-                  
-                
-          
-            cv2.drawContours(image, contours, big, (0,255,0), 3)
+    for i in range(0, len(contours)):
+        if cv2.contourArea(contours[i]) >= 1000:
+              for c in range(0, len(thing)): 
+                if cv2.pointPolygonTest(contours[i],thing[c], measureDist) >= 0:
+                  good_plants = contours[i]
+                else:
+                  bad_plants = contours[i]  
+    
+cv2.drawContours(image, contours, big, (0,255,0), 3)
     
         
     

@@ -22,13 +22,14 @@ check, image = cam.read()
 
     contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    for big in range(0, len(contours)):
-        if cv2.contourArea(contours[big]) >= 1000:
-             M = cv2.moments(c)
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
-            thing[c]=(cX,cY)
-                
+    c = 0    
+for i in range(0, len(contours)):
+    if cv2.contourArea(contours[i]) >= 1000:
+        M = cv2.moments(i)
+        cX = int(M["m10"] / M["m00"])
+        cY = int(M["m01"] / M["m00"])
+        thing[c]=(cX,cY)
+        c+=1
             
 
 while True:
@@ -43,9 +44,9 @@ while True:
 
     contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    for big in range(0, len(contours)):
-        if cv2.contourArea(contours[big]) >= 1000:
-            cv2.drawContours(image, contours, big, (0,255,0), 3)
+    for i in range(0, len(contours)):
+        if cv2.contourArea(contours[i]) >= 1000:
+            cv2.drawContours(image, contours, i, (0,255,0), 3)
     
         
     

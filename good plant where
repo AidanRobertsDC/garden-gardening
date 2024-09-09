@@ -24,6 +24,8 @@ check, image = cam.read()
     
     for big in range(0, len(contours)):
         if cv2.contourArea(contours[big]) >= 1000:
+            for c in 
+            
 
 while True:
     check, image = cam.read()

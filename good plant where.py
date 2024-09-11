@@ -25,7 +25,7 @@ check, image = cam.read()
     c = 0    
 for i in range(0, len(contours)):
     if cv2.contourArea(contours[i]) >= 1000:
-        M = cv2.moments(i)
+        M = cv2.moments(contours[i])
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
         thing[c]=(cX,cY)

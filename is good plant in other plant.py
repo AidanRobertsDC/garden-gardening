@@ -22,10 +22,11 @@ blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 
 contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-c = 0    
+c = 0 
+thing = {}
 for i in range(0, len(contours)):
     if cv2.contourArea(contours[i]) >= 1000:
-        M = cv2.moments(i)
+        M = cv2.moments(contours[i])
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
         thing[c]=(cX,cY)
@@ -48,7 +49,7 @@ while True:
     for i in range(0, len(contours)):
         if cv2.contourArea(contours[i]) >= 1000:
               for c in range(0, len(thing)): 
-                if cv2.pointPolygonTest(contours[i],thing[c], measureDist) >= 0:
+                if cv2.pointPolygonTest(contours[i],thing[c], False) >= 0:
                   good_plants = contours[i]
                 else:
                   bad_plants = contours[i]  

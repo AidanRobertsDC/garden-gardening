@@ -13,16 +13,17 @@ def check_exit():
     return False
 check, image = cam.read()
     
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower_green = np.array([110,50,50])
-    upper_green = np.array([130,255,255])
-    mask = cv2.inRange(hsv, lower_green, upper_green)
-    res = cv2.bitwise_and(image,image, mask= mask)
-    blur_image = cv2.GaussianBlur(mask, (5,5), 0)
+hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+lower_green = np.array([110,50,50])
+upper_green = np.array([130,255,255])
+mask = cv2.inRange(hsv, lower_green, upper_green)
+res = cv2.bitwise_and(image,image, mask= mask)
+blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 
-    contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    c = 0    
+c = 0 
+thing ={}
 for i in range(0, len(contours)):
     if cv2.contourArea(contours[i]) >= 1000:
         M = cv2.moments(contours[i])

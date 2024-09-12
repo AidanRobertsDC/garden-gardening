@@ -23,10 +23,10 @@ blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
 c = 0 
-thing = {}   
+thing = {}
 for i in range(0, len(contours)):
     if cv2.contourArea(contours[i]) >= 1000:
-        M = cv2.moments(i)
+        M = cv2.moments(contours[i])
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
         thing[c]=(cX,cY)
@@ -45,21 +45,23 @@ while True:
     blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 
     contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    good_plants = []
+    bad_plants = []
     
     for i in range(0, len(contours)):
         if cv2.contourArea(contours[i]) >= 1000:
               for c in range(0, len(thing)): 
-                if cv2.pointPolygonTest(contours[i],thing[c],False ) >= 0:
-                  good_plants = contours[i]
+                if cv2.pointPolygonTest(contours[i],thing[c], False) >= 0:
+                  good_plants.append(contours[i])
                 else:
-                  bad_plants = contours[i]  
+                  bad_plants.append(contours[i])  
     
     cv2.drawContours(image, bad_plants, -1, (255,0,0), 3)
     cv2.drawContours(image, good_plants, -1, (0,0,255), 3)
 
     #for loops that find center of good and bad plants 
-    for conturs in bad_plants:
-        
+    
         
     
     

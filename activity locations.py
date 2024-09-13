@@ -60,10 +60,27 @@ while True:
     cv2.drawContours(image, bad_plants, -1, (255,0,0), 3)
     cv2.drawContours(image, good_plants, -1, (0,0,255), 3)
 
-    #for loops that find center of good and bad plants 
     
-        
-    
+
+    b = 0
+    bad = {}
+    for weed in bad_plants :
+      bM = cv2.moments(weed)
+      bX = int(bM["m10"] / bM["m00"])
+      bY = int(bM["m01"] / bM["m00"])
+      bad[b] = (bX,bY)
+      b+=1
+
+    g = 0
+    good = {}
+    for plant in good_plants:
+        gM = cv2.moments(plant)
+        gX = int(gM["m10"] / gM["m00"])
+        gY = int(gM["m01"] / gM["m00"])
+        good[g] = (gX,gY)
+        g+=1 
+
+    send = [good,bad] 
     
     cv2.imshow('image', image)
     cv2.imshow('mask',mask)
@@ -75,3 +92,4 @@ while True:
         break
 cam.release()
 cv2.destroyAllWindows()
+

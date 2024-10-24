@@ -98,9 +98,14 @@ try:
             sgY.append(gY)
  
         send_size = 0
-        list_gX = [sgX]
-        list_size = link.tx_obj(list_gX)
-        send_size += list_size
+        if len(sgX) > 0: 
+            list_gX = [sgX]
+            list_size = link.tx_obj(list_gX)
+            send_size += list_size
+        
+        str_sgX = 'sgX'
+        str_size = link.tx_obj(str_sgX, send_size) - send_size
+        send_size += str_size
 
         link.send(send_size)
         print('sent')
@@ -115,14 +120,28 @@ try:
                     else:
                         print('ERROR: {}'.format(link.status))
 
-        rec_list_  = link.rx_obj(obj_type=type(list_gX),
+        if len(sgX) > 0:
+            rec_list_  = link.rx_obj(obj_type=type(list_gX),
                                         obj_byte_size=list_size,
                                         list_format='i')
         
-        print('SENT: {}'.format(list_gX))
-        print('RCVD: {}'.format(rec_list_,))
-        print(' ')
-        
+            rec_str_   = link.rx_obj(obj_type=type(str_sgX),
+                                     obj_byte_size=str_size,
+                                     start_pos=list_size)
+            
+            print('SENT: {} {}'.format(list_gX,str_sgX))
+            print('RCVD: {} {}'.format(rec_list_,rec_str_))
+            print(' ')
+
+        else:
+            rec_str_   = link.rx_obj(obj_type=type(str_sgX),
+                                     obj_byte_size=str_size,
+                                     start_pos=0)
+            
+            print('SENT: {}'.format(str_sgX))
+            print('RCVD: {}'.format(rec_str_))
+            print(' ')
+
         cv2.imshow('image', image)
         cv2.imshow('mask',mask)
         cv2.imshow('res',res)

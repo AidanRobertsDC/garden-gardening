@@ -51,7 +51,7 @@ try:
         
     link.open()
     time.sleep(2) # allow some time for the Arduino to completely reset            
-
+    print('linked')
     while True:
         check, image = cam.read()
         
@@ -63,7 +63,7 @@ try:
         blur_image = cv2.GaussianBlur(mask, (5,5), 0)
 
         contours, hierarchy = cv2.findContours(blur_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
+        print('found')
         good_plants = []
         bad_plants = []
         
@@ -74,7 +74,7 @@ try:
                         good_plants.append(contours[i])
                     else:
                         bad_plants.append(contours[i])  
-        
+        print('assined')
         cv2.drawContours(image, bad_plants, -1, (255,0,0), 3)
         cv2.drawContours(image, good_plants, -1, (0,0,255), 3)
 
@@ -96,14 +96,14 @@ try:
             gY = int(gM["m01"] / gM["m00"])
             sgX.append(gX)
             sgY.append(gY)
-
-        send = [sgX] 
+ 
         send_size = 0
-        list_size = link.tx_obj(send)
+        list_gX = [sgX]
+        list_size = link.tx_obj(list_gX)
         send_size += list_size
 
         link.send(send_size)
-
+        print('sent')
         while not link.available():
                 if link.status < 0:
                     if link.status == txfer.CRC_ERROR:
@@ -115,11 +115,11 @@ try:
                     else:
                         print('ERROR: {}'.format(link.status))
 
-        rec_list_  = link.rx_obj(obj_type=type(send),
+        rec_list_  = link.rx_obj(obj_type=type(list_gX),
                                         obj_byte_size=list_size,
                                         list_format='i')
         
-        print('SENT: {}'.format(send))
+        print('SENT: {}'.format(list_gX))
         print('RCVD: {}'.format(rec_list_,))
         print(' ')
         

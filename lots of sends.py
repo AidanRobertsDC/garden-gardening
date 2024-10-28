@@ -165,7 +165,7 @@ try:
                     else:
                         print('ERROR: {}'.format(link.status))
 
-        if len(sgX) > 0:
+        if len(sgY) > 0:
             rec_list_  = link.rx_obj(obj_type=type(list_gY),
                                         obj_byte_size=list_size,
                                         list_format='i')
@@ -184,6 +184,96 @@ try:
                                      start_pos=0)
             
             print('SENT: {}'.format(str_sgY))
+            print('RCVD: {}'.format(rec_str_))
+            print(' ')
+
+        send_size = 0
+        if len(sbX) > 0: 
+            list_bX = [sbX]
+            list_size = link.tx_obj(list_bX)
+            send_size += list_size
+        
+        str_sbX = 'sbX'
+        str_size = link.tx_obj(str_sbX, send_size) - send_size
+        send_size += str_size
+
+        link.send(send_size)
+        print('sent')
+        while not link.available():
+                if link.status < 0:
+                    if link.status == txfer.CRC_ERROR:
+                        print('ERROR: CRC_ERROR')
+                    elif link.status == txfer.PAYLOAD_ERROR:
+                        print('ERROR: PAYLOAD_ERROR')
+                    elif link.status == txfer.STOP_BYTE_ERROR:
+                        print('ERROR: STOP_BYTE_ERROR')
+                    else:
+                        print('ERROR: {}'.format(link.status))
+
+        if len(sbX) > 0:
+            rec_list_  = link.rx_obj(obj_type=type(list_bX),
+                                        obj_byte_size=list_size,
+                                        list_format='i')
+        
+            rec_str_   = link.rx_obj(obj_type=type(str_sgbX),
+                                     obj_byte_size=str_size,
+                                     start_pos=list_size)
+            
+            print('SENT: {} {}'.format(list_bX,str_sbX))
+            print('RCVD: {} {}'.format(rec_list_,rec_str_))
+            print(' ')
+
+        else:
+            rec_str_   = link.rx_obj(obj_type=type(str_sbX),
+                                     obj_byte_size=str_size,
+                                     start_pos=0)
+            
+            print('SENT: {}'.format(str_sbX))
+            print('RCVD: {}'.format(rec_str_))
+            print(' ')
+            
+        send_size = 0
+        if len(sbY) > 0: 
+            list_bX = [sbY]
+            list_size = link.tx_obj(list_bY)
+            send_size += list_size
+        
+        str_sbY = 'sbY'
+        str_size = link.tx_obj(str_sbY, send_size) - send_size
+        send_size += str_size
+
+        link.send(send_size)
+        print('sent')
+        while not link.available():
+                if link.status < 0:
+                    if link.status == txfer.CRC_ERROR:
+                        print('ERROR: CRC_ERROR')
+                    elif link.status == txfer.PAYLOAD_ERROR:
+                        print('ERROR: PAYLOAD_ERROR')
+                    elif link.status == txfer.STOP_BYTE_ERROR:
+                        print('ERROR: STOP_BYTE_ERROR')
+                    else:
+                        print('ERROR: {}'.format(link.status))
+
+        if len(sbY) > 0:
+            rec_list_  = link.rx_obj(obj_type=type(list_bY),
+                                        obj_byte_size=list_size,
+                                        list_format='i')
+        
+            rec_str_   = link.rx_obj(obj_type=type(str_sbY),
+                                     obj_byte_size=str_size,
+                                     start_pos=list_size)
+            
+            print('SENT: {} {}'.format(list_bY,str_sbY))
+            print('RCVD: {} {}'.format(rec_list_,rec_str_))
+            print(' ')
+
+        else:
+            rec_str_   = link.rx_obj(obj_type=type(str_sbY),
+                                     obj_byte_size=str_size,
+                                     start_pos=0)
+            
+            print('SENT: {}'.format(str_sbY))
             print('RCVD: {}'.format(rec_str_))
             print(' ')
 

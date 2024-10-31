@@ -144,7 +144,7 @@ try:
             
         send_size = 0
         if len(sgY) > 0: 
-            list_gX = [sgY]
+            list_gY = [sgY]
             list_size = link.tx_obj(list_gY)
             send_size += list_size
         
@@ -215,7 +215,7 @@ try:
                                         obj_byte_size=list_size,
                                         list_format='i')
         
-            rec_str_   = link.rx_obj(obj_type=type(str_sgbX),
+            rec_str_   = link.rx_obj(obj_type=type(str_sbX),
                                      obj_byte_size=str_size,
                                      start_pos=list_size)
             

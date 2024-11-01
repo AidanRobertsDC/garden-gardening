@@ -12,8 +12,8 @@ for one in ports:
     portslist.append(str(one))
     print(str(one))
 
-com_ports = [port.split(' ')[0] for port in portslist]
-
+com_ports = [port.device for port in ports if 'Arduino' in port.description]
+print(com_ports[0])
 
 cam = cv2.VideoCapture(0)
 cam.set(3,640)
@@ -50,7 +50,7 @@ try:
     link = txfer.SerialTransfer(com_ports[0])
         
     link.open()
-    time.sleep(2) # allow some time for the Arduino to completely reset            
+    time.sleep(4) # allow some time for the Arduino to completely reset            
     print('linked')
     while True:
         check, image = cam.read()
@@ -132,6 +132,7 @@ try:
             print('SENT: {} {}'.format(list_gX,str_sgX))
             print('RCVD: {} {}'.format(rec_list_,rec_str_))
             print(' ')
+            
 
         else:
             rec_str_   = link.rx_obj(obj_type=type(str_sgX),
@@ -141,6 +142,7 @@ try:
             print('SENT: {}'.format(str_sgX))
             print('RCVD: {}'.format(rec_str_))
             print(' ')
+            
             
         send_size = 0
         if len(sgY) > 0: 
@@ -177,6 +179,7 @@ try:
             print('SENT: {} {}'.format(list_gY,str_sgY))
             print('RCVD: {} {}'.format(rec_list_,rec_str_))
             print(' ')
+            
 
         else:
             rec_str_   = link.rx_obj(obj_type=type(str_sgY),
@@ -186,6 +189,7 @@ try:
             print('SENT: {}'.format(str_sgY))
             print('RCVD: {}'.format(rec_str_))
             print(' ')
+            
 
         send_size = 0
         if len(sbX) > 0: 
@@ -222,6 +226,7 @@ try:
             print('SENT: {} {}'.format(list_bX,str_sbX))
             print('RCVD: {} {}'.format(rec_list_,rec_str_))
             print(' ')
+            
 
         else:
             rec_str_   = link.rx_obj(obj_type=type(str_sbX),
@@ -231,6 +236,7 @@ try:
             print('SENT: {}'.format(str_sbX))
             print('RCVD: {}'.format(rec_str_))
             print(' ')
+            
             
         send_size = 0
         if len(sbY) > 0: 
@@ -267,6 +273,7 @@ try:
             print('SENT: {} {}'.format(list_bY,str_sbY))
             print('RCVD: {} {}'.format(rec_list_,rec_str_))
             print(' ')
+            
 
         else:
             rec_str_   = link.rx_obj(obj_type=type(str_sbY),
@@ -276,6 +283,7 @@ try:
             print('SENT: {}'.format(str_sbY))
             print('RCVD: {}'.format(rec_str_))
             print(' ')
+            
 
         cv2.imshow('image', image)
         cv2.imshow('mask',mask)
@@ -305,7 +313,7 @@ try:
         print('SENT: {}'.format(str_done))
         print('RCVD: {}'.format(rec_str_))
         print(' ')
-
+        
 
         if check_exit():
             break

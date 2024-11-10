@@ -43,93 +43,97 @@ void loop()
   int*sbY = NULL;
   int*incomingArray = NULL;
   
- if(myTransfer.available())  
- { 
+while (!myTransfer.available())
+  {
+    delay(10);
+  }
+
   for (int i = 0; i < 4; i++)
   {
-    free(incomingArray);
-    int arraySize = myTransfer.bytesRead / sizeof(int);
-    incomingArray = (int*)malloc(arraySize * sizeof(int));
-
-    String incomingString ="";
-
-    for (uint16_t i = 0; i < myTransfer.bytesRead; i++)
-    {
-     myTransfer.packet.txBuff[i] = myTransfer.packet.rxBuff[i];
-     incomingString += (char)myTransfer.packet.rxBuff[i];
-    }
-      
-    for (uint16_t i = 0; i < arraySize; i++) 
-    {
-    incomingArray[i] = *((int*)(myTransfer.packet.rxBuff + i * sizeof(int)));
-    }
+      if(myTransfer.available())  
+      { 
+        free(incomingArray);
+        int arraySize = myTransfer.bytesRead / sizeof(int);
+        incomingArray = (int*)malloc(arraySize * sizeof(int));
     
-    if (incomingString == "sgX")
-    {
-      if (sgX != NULL) 
-      {
-        free(sgX);
-      }
-      sgX = (int*)malloc(arraySize*sizeof(int));
-      if (sgX != NULL) 
-      { 
-        for (int i = 0; i < arraySize; i++)
-        {
-          sgX[i] = incomingArray[i];
-        }
-      }
-    }
-
-    if (incomingString == "sgY")
-    {
-      if (sgY != NULL) 
-      {
-        free(sgY);
-      }
-      sgY = (int*)malloc(arraySize*sizeof(int)); 
-      if (sgY != NULL) 
-      {
-        for (int i = 0; i < arraySize; i++)
-        {
-          sgY[i] = incomingArray[i];
-        }
-      }
-    }
+        String incomingString ="";
     
-    if (incomingString == "sbX")
-    {
-      if (sbX != NULL) 
-      {
-        free(sbX);
-      }
-      sbX = (int*)malloc(arraySize*sizeof(int));
-      if (sbX != NULL) 
-      { 
-        for (int i = 0; i < arraySize; i++)
+        for (uint16_t i = 0; i < myTransfer.bytesRead; i++)
         {
-          sbX[i] = incomingArray[i];
+         myTransfer.packet.txBuff[i] = myTransfer.packet.rxBuff[i];
+         incomingString += (char)myTransfer.packet.rxBuff[i];
         }
-      }
-    }
-
-    if (incomingString == "sbY")
-    {
-      if (sbY != NULL) 
-      {
-        free(sbY);
-      }
-      sgY = (int*)malloc(arraySize*sizeof(int));
-      if (sbY != NULL) 
-      { 
-        for (int i = 0; i < arraySize; i++)
+          
+        for (uint16_t i = 0; i < arraySize; i++) 
         {
-          sbY[i] = incomingArray[i];
+        incomingArray[i] = *((int*)(myTransfer.packet.rxBuff + i * sizeof(int)));
         }
-      }
-    }
-    myTransfer.sendData(myTransfer.bytesRead);
-    delay(100);
-   }
+        
+        if (incomingString == "sgX")
+        {
+          if (sgX != NULL) 
+          {
+            free(sgX);
+          }
+          sgX = (int*)malloc(arraySize*sizeof(int));
+          if (sgX != NULL) 
+          { 
+            for (int i = 0; i < arraySize; i++)
+            {
+              sgX[i] = incomingArray[i];
+            }
+          }
+        }
+    
+        if (incomingString == "sgY")
+        {
+          if (sgY != NULL) 
+          {
+            free(sgY);
+          }
+          sgY = (int*)malloc(arraySize*sizeof(int)); 
+          if (sgY != NULL) 
+          {
+            for (int i = 0; i < arraySize; i++)
+            {
+              sgY[i] = incomingArray[i];
+            }
+          }
+        }
+        
+        if (incomingString == "sbX")
+        {
+          if (sbX != NULL) 
+          {
+            free(sbX);
+          }
+          sbX = (int*)malloc(arraySize*sizeof(int));
+          if (sbX != NULL) 
+          { 
+            for (int i = 0; i < arraySize; i++)
+            {
+              sbX[i] = incomingArray[i];
+            }
+          }
+        }
+    
+        if (incomingString == "sbY")
+        {
+          if (sbY != NULL) 
+          {
+            free(sbY);
+          }
+          sgY = (int*)malloc(arraySize*sizeof(int));
+          if (sbY != NULL) 
+          { 
+            for (int i = 0; i < arraySize; i++)
+            {
+              sbY[i] = incomingArray[i];
+            }
+          }
+        }
+        myTransfer.sendData(myTransfer.bytesRead);
+       }
   }
 
   if(myTransfer.available())
@@ -230,7 +234,6 @@ void loop()
     }   
    }
   myTransfer.sendData(myTransfer.bytesRead);
-  delay(100);
   free(sgX);
   free(sgY);
   free(sbX);
